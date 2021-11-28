@@ -1,4 +1,4 @@
-// Reads urls from command line args and fetch them. Use channels.
+// Reads urls from command line args and fetch them. Use output channel.
 // example:
 // go run main.go https://ya.ru https://google.com t2 https://gmail.com https://vk.com https://github.com https://test.com
 package main
