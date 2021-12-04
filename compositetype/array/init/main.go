@@ -1,4 +1,4 @@
-package init
+package main
 
 import "fmt"
 
@@ -36,6 +36,17 @@ func init() {
 	}
 }
 
-func main() {
+type Currency int32
 
+const (
+	RUB Currency = iota
+	USD
+	EUR
+)
+
+var symbol = [...]string{RUB: "Р.", USD: "$", EUR: "€"}
+
+func main() {
+	fmt.Printf("RUB: %s\n", symbol[RUB])
+	fmt.Printf("USD: %s", symbol[USD])
 }
