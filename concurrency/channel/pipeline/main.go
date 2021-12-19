@@ -2,43 +2,10 @@ package main
 
 import (
 	"fmt"
+	"sync"
 )
 
 type item float64
-
-type myWaitGroup struct {
-	sema  chan struct{}
-	count int
-}
-
-func NewWg() *myWaitGroup {
-	return &myWaitGroup{
-		sema: make(chan struct{}, 1),
-	}
-}
-
-func (wg *myWaitGroup) Inc() {
-	wg.sema <- struct{}{}
-	wg.count++
-	<-wg.sema
-}
-
-func (wg *myWaitGroup) Done() {
-	wg.sema <- struct{}{}
-	wg.count--
-	<-wg.sema
-}
-
-func (wg *myWaitGroup) Wait() {
-	done := false
-	for !done {
-		wg.sema <- struct{}{}
-		if wg.count == 0 {
-			done = true
-		}
-		<-wg.sema
-	}
-}
 
 type work func(in <-chan item, out chan<- item)
 
@@ -83,12 +50,12 @@ func main() {
 	}
 
 	in := make(chan item)
-	var wg = NewWg()
+	var wg = &sync.WaitGroup{}
 
 	for _, w := range workers {
 		out := make(chan item)
-		wg.Inc()
-		go func(w work, in, out chan item, wg *myWaitGroup) {
+		wg.Add(1)
+		go func(w work, in, out chan item, wg *sync.WaitGroup) {
 			w(in, out)
 			wg.Done()
 		}(w, in, out, wg)
