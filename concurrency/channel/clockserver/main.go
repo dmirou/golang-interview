@@ -1,3 +1,8 @@
+// main sends current time to each client every second through tcp connection.
+// To start the server specify timezone and port.
+// TIMEZONE=Local go run main.go 8081
+// TIMEZONE=UTC go run main.go 8082
+// TIMEZONE=Europe/Moscow go run main.go 8081
 package main
 
 import (
@@ -20,28 +25,38 @@ func main() {
 		log.Fatalf("can't parse input port %s: %v", os.Args[1], err)
 	}
 
+	tz := os.Getenv("TIMEZONE")
+	loc, err := time.LoadLocation(tz)
+	if err != nil {
+		log.Fatalf("can't load location for TIMEZONE env var %s: %v", tz, err)
+	}
+
 	addr := fmt.Sprintf("localhost:%d", port)
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatalf("clock1: can't start listener at %s: %v", addr, err)
+		log.Fatalf("clockserver: can't start listener at %s: %v", addr, err)
 	}
-	defer listener.Close()
+	defer func() {
+		err := listener.Close()
+		if err != nil {
+			fmt.Printf("clockserver: can't close listener: %v\n", err)
+		}
+		fmt.Println("clockserver: done")
+	}()
 
-	fmt.Printf("clock1: wait for connections on %s\n", listener.Addr().String())
+	fmt.Printf("clockserver: wait for connections on %s\n", listener.Addr().String())
 
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			fmt.Printf("clock1: can't accept connection: %v", err)
+			fmt.Printf("clockserver: can't accept connection: %v", err)
 			return
 		}
-		go handleCon(conn)
+		go handleCon(conn, loc)
 	}
-
-	fmt.Println("clock1: done")
 }
 
-func handleCon(conn net.Conn) {
+func handleCon(conn net.Conn, location *time.Location) {
 	fmt.Println("handleCon: client connected")
 
 	defer func(conn net.Conn) {
@@ -53,7 +68,7 @@ func handleCon(conn net.Conn) {
 	}(conn)
 
 	for {
-		msg := time.Now().Format("15:04:05\n")
+		msg := time.Now().In(location).Format("15:04:05\n")
 		_, err := io.WriteString(conn, msg)
 		if err != nil {
 			fmt.Printf("handleCon: can't send to the client: %v\n", err)
