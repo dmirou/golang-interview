@@ -68,13 +68,13 @@ func handleCon(conn net.Conn, location *time.Location) {
 	}(conn)
 
 	for {
-		msg := time.Now().In(location).Format("15:04:05\n")
+		msg := time.Now().In(location).Format("15:04:05")
 		_, err := io.WriteString(conn, msg)
 		if err != nil {
 			fmt.Printf("handleCon: can't send to the client: %v\n", err)
 			return
 		}
-		fmt.Printf("handleCon: sent to the client: %s", msg)
+		fmt.Printf("handleCon: sent to the client: %s\n", msg)
 
 		time.Sleep(1 * time.Second)
 	}
