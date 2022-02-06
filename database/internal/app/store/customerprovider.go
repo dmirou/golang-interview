@@ -23,15 +23,30 @@ func (p *CustomerProvider) Add(c *model.Customer) error {
 	return nil
 }
 
+func (p *CustomerProvider) Update(c *model.Customer) error {
+	_, err := p.store.db.Exec(
+		"UPDATE customer SET first_name = $1, last_name = $2",
+		c.FirstName,
+		c.LastName,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (p *CustomerProvider) Find(id int64) (*model.Customer, error) {
 	c := &model.Customer{}
 
 	if err := p.store.db.QueryRow(
-		"SELECT id, email FROM customer WHERE id = $1",
+		"SELECT id, email, first_name, last_name FROM customer WHERE id = $1",
 		id,
 	).Scan(
 		&c.ID,
 		&c.Email,
+		&c.FirstName,
+		&c.LastName,
 	); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
@@ -44,7 +59,7 @@ func (p *CustomerProvider) Find(id int64) (*model.Customer, error) {
 }
 
 func (p *CustomerProvider) List() ([]*model.Customer, error) {
-	rows, err := p.store.db.Query("SELECT id, email FROM customer")
+	rows, err := p.store.db.Query("SELECT id, email, first_name, last_name FROM customer")
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +73,12 @@ func (p *CustomerProvider) List() ([]*model.Customer, error) {
 
 	for rows.Next() {
 		c := &model.Customer{}
-		err := rows.Scan(&c.ID, &c.Email)
+		err := rows.Scan(
+			&c.ID,
+			&c.Email,
+			&c.FirstName,
+			&c.LastName,
+		)
 		if err != nil {
 			return nil, err
 		}

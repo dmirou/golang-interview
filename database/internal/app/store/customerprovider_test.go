@@ -48,6 +48,55 @@ func TestCustomerProvider_Add(t *testing.T) {
 	}
 }
 
+func TestCustomerProvider_Update(t *testing.T) {
+	testCases := []struct {
+		name      string
+		firstName string
+		lastName  string
+	}{
+		{
+			name:      "empty all",
+			firstName: "",
+			lastName:  "",
+		},
+		{
+			name:      "filled all",
+			firstName: "Ivan",
+			lastName:  "Ivanov",
+		},
+		{
+			name:      "empty last name",
+			firstName: "Ivan",
+			lastName:  "",
+		},
+		{
+			name:      "empty first name",
+			firstName: "",
+			lastName:  "Ivanov",
+		},
+	}
+
+	s, down := store.TestStore(t, databaseURL)
+	defer down("customer")
+
+	c1 := &model.Customer{Email: "customer@email.com"}
+	err := s.Customer().Add(c1)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			c1.FirstName = tc.firstName
+			c1.LastName = tc.firstName
+			err := s.Customer().Update(c1)
+			if err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
 func TestCustomerProvider_Find(t *testing.T) {
 	s, down := store.TestStore(t, databaseURL)
 	defer down()
