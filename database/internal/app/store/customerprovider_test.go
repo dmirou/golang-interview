@@ -6,13 +6,13 @@ import (
 	"github.com/dmirou/learngo/database/internal/app/store"
 )
 
-func TestUserProvider_Find(t *testing.T) {
+func TestCustomerProvider_Find(t *testing.T) {
 	s, down := store.TestStore(t, databaseURL)
 	defer down()
 
 	notExisting := int64(999)
 
-	u, err := s.User().Find(notExisting)
+	u, err := s.Customer().Find(notExisting)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -21,11 +21,11 @@ func TestUserProvider_Find(t *testing.T) {
 	}
 }
 
-func TestUserProvider_List(t *testing.T) {
+func TestCustomerProvider_List(t *testing.T) {
 	s, down := store.TestStore(t, databaseURL)
 	defer down()
 
-	l, err := s.User().List()
+	l, err := s.Customer().List()
 	if err != nil {
 		t.Fatal(err)
 	}

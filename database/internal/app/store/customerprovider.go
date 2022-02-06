@@ -7,12 +7,12 @@ import (
 	"github.com/dmirou/learngo/database/internal/app/model"
 )
 
-type UserProvider struct {
+type CustomerProvider struct {
 	store *Store
 	l     *log.Logger
 }
 
-func (p *UserProvider) Find(id int64) (*model.Customer, error) {
+func (p *CustomerProvider) Find(id int64) (*model.Customer, error) {
 	c := &model.Customer{}
 
 	if err := p.store.db.QueryRow(
@@ -32,7 +32,7 @@ func (p *UserProvider) Find(id int64) (*model.Customer, error) {
 	return c, nil
 }
 
-func (p *UserProvider) List() ([]*model.Customer, error) {
+func (p *CustomerProvider) List() ([]*model.Customer, error) {
 	rows, err := p.store.db.Query("SELECT id, email FROM customer")
 	if err != nil {
 		return nil, err

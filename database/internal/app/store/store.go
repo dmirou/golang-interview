@@ -23,8 +23,8 @@ func New(databaseURL string) (*Store, error) {
 	return &Store{db: db}, nil
 }
 
-func (s *Store) User() *UserProvider {
-	return &UserProvider{
+func (s *Store) Customer() *CustomerProvider {
+	return &CustomerProvider{
 		store: s,
 	}
 }
