@@ -97,6 +97,26 @@ func TestCustomerProvider_Update(t *testing.T) {
 	}
 }
 
+func TestCustomerProvider_Delete(t *testing.T) {
+	s, down := store.TestStore(t, databaseURL)
+	defer down("customer")
+
+	c := &model.Customer{
+		Email: "user@example.com",
+	}
+
+	if err := s.Customer().Add(c); err != nil {
+		t.Fatalf("expected: nil, got: %v", err)
+	}
+
+	if err := s.Customer().Delete(c); err != nil {
+		t.Fatalf("expected: nil, got: %v", err)
+	}
+	if c.DeleteTime == nil {
+		t.Fatalf("expected: not nil, got: %v", c.DeleteTime)
+	}
+}
+
 func TestCustomerProvider_Find(t *testing.T) {
 	s, down := store.TestStore(t, databaseURL)
 	defer down()

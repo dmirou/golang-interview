@@ -3,6 +3,7 @@ package store
 import (
 	"database/sql"
 	"log"
+	"time"
 
 	"github.com/dmirou/learngo/database/internal/app/model"
 )
@@ -32,6 +33,21 @@ func (p *CustomerProvider) Update(c *model.Customer) error {
 	if err != nil {
 		return err
 	}
+
+	return nil
+}
+
+func (p *CustomerProvider) Delete(c *model.Customer) error {
+	t := time.Now().UTC()
+	_, err := p.store.db.Exec(
+		"UPDATE customer SET delete_time = $1",
+		t,
+	)
+	if err != nil {
+		return err
+	}
+
+	c.DeleteTime = &t
 
 	return nil
 }
