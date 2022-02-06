@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	_ "github.com/lib/pq"
+
+	"github.com/dmirou/learngo/database/internal/app/model"
 )
 
 func TestStore(t *testing.T, databaseURL string) (*Store, func(...string)) {
@@ -21,5 +23,11 @@ func TestStore(t *testing.T, databaseURL string) (*Store, func(...string)) {
 
 		_ = s.Close()
 		return
+	}
+}
+
+func TestCustomer() *model.Customer {
+	return &model.Customer{
+		Email: "user@example.com",
 	}
 }

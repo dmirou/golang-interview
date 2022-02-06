@@ -79,7 +79,7 @@ func TestCustomerProvider_Update(t *testing.T) {
 	s, down := store.TestStore(t, databaseURL)
 	defer down("customer")
 
-	c1 := &model.Customer{Email: "customer@email.com"}
+	c1 := store.TestCustomer()
 	err := s.Customer().Add(c1)
 	if err != nil {
 		t.Fatal(err)
@@ -101,9 +101,7 @@ func TestCustomerProvider_Delete(t *testing.T) {
 	s, down := store.TestStore(t, databaseURL)
 	defer down("customer")
 
-	c := &model.Customer{
-		Email: "user@example.com",
-	}
+	c := store.TestCustomer()
 
 	if err := s.Customer().Add(c); err != nil {
 		t.Fatalf("expected: nil, got: %v", err)
@@ -119,9 +117,24 @@ func TestCustomerProvider_Delete(t *testing.T) {
 
 func TestCustomerProvider_Find(t *testing.T) {
 	s, down := store.TestStore(t, databaseURL)
-	defer down()
+	defer down("customer")
 
-	notExisting := int64(999)
+	c := store.TestCustomer()
+
+	if err := s.Customer().Add(c); err != nil {
+		t.Fatalf("expected: nil, got: %v", err)
+	}
+
+	c2, err := s.Customer().Find(c.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if c2.ID != c.ID {
+		t.Fatalf("expected: %v, got: %v", c.ID, c2.ID)
+	}
+
+	notExisting := c.ID + 1
 
 	u, err := s.Customer().Find(notExisting)
 	if err != nil {
