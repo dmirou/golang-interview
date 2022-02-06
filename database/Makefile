@@ -24,7 +24,7 @@ run:
 	PG_URL=$(PG_URL) go run ./cmd/main.go
 
 test:
-	PG_TEST_DB_URL=$(PG_URL) go test -v -race ./...
+	PG_TEST_DB_URL=$(PG_URL) go test -count=1 -v -race ./...
 
 .PHONY: fmt
 fmt:

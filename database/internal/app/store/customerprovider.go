@@ -12,6 +12,17 @@ type CustomerProvider struct {
 	l     *log.Logger
 }
 
+func (p *CustomerProvider) Add(c *model.Customer) error {
+	if err := p.store.db.QueryRow(
+		"INSERT INTO customer(email) VALUES ($1) RETURNING id",
+		c.Email,
+	).Scan(&c.ID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (p *CustomerProvider) Find(id int64) (*model.Customer, error) {
 	c := &model.Customer{}
 
