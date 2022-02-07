@@ -145,6 +145,39 @@ func TestCustomerProvider_Find(t *testing.T) {
 	}
 }
 
+func TestCustomerProvider_FindByEmail(t *testing.T) {
+	s, down := store.TestStore(t, databaseURL)
+	defer down("customer")
+
+	c := store.TestCustomer()
+
+	if err := s.Customer().Add(c); err != nil {
+		t.Fatalf("expected: nil, got: %v", err)
+	}
+
+	c2, err := s.Customer().FindByEmail(c.Email)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if c2.ID != c.ID {
+		t.Fatalf("expected: %v, got: %v", c.ID, c2.ID)
+	}
+	if c2.Email != c.Email {
+		t.Fatalf("expected: %v, got: %v", c.ID, c2.ID)
+	}
+
+	notExisting := "not-exist@email.com"
+
+	u, err := s.Customer().FindByEmail(notExisting)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if u != nil {
+		t.Fatalf("expected: %v, got: %v", nil, u)
+	}
+}
+
 func TestCustomerProvider_List(t *testing.T) {
 	s, down := store.TestStore(t, databaseURL)
 	defer down()

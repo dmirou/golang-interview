@@ -74,6 +74,28 @@ func (p *CustomerProvider) Find(id int64) (*model.Customer, error) {
 	return c, nil
 }
 
+func (p *CustomerProvider) FindByEmail(email string) (*model.Customer, error) {
+	c := &model.Customer{}
+
+	if err := p.store.db.QueryRow(
+		"SELECT id, email, first_name, last_name FROM customer WHERE email = $1",
+		email,
+	).Scan(
+		&c.ID,
+		&c.Email,
+		&c.FirstName,
+		&c.LastName,
+	); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+
+		return nil, err
+	}
+
+	return c, nil
+}
+
 func (p *CustomerProvider) List() ([]*model.Customer, error) {
 	rows, err := p.store.db.Query("SELECT id, email, first_name, last_name FROM customer")
 	if err != nil {
