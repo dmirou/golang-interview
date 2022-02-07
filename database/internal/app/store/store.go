@@ -2,6 +2,8 @@ package store
 
 import (
 	"database/sql"
+	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -26,6 +28,7 @@ func New(databaseURL string) (*Store, error) {
 func (s *Store) Customer() *CustomerProvider {
 	return &CustomerProvider{
 		store: s,
+		l:     log.New(os.Stdout, "customer:", log.LstdFlags|log.LUTC),
 	}
 }
 

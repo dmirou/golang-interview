@@ -97,6 +97,8 @@ func (p *CustomerProvider) FindByEmail(email string) (*model.Customer, error) {
 }
 
 func (p *CustomerProvider) List() ([]*model.Customer, error) {
+	p.l.SetPrefix(p.l.Prefix() + "List:")
+
 	rows, err := p.store.db.Query("SELECT id, email, first_name, last_name FROM customer")
 	if err != nil {
 		return nil, err
