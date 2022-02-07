@@ -24,6 +24,45 @@ func (p *CustomerProvider) Add(c *model.Customer) error {
 	return nil
 }
 
+func (p *CustomerProvider) BatchAdd(customers []*model.Customer) error {
+	p.l.SetPrefix(p.l.Prefix() + "BatchAdd:")
+
+	tx, err := p.store.db.Begin()
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		if err := tx.Rollback(); err != nil {
+			p.l.Println(err)
+		}
+	}()
+
+	stmt, err := tx.Prepare(
+		"INSERT INTO customer(email, first_name, last_name) VALUES ($1, $2, $3)",
+	)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err := stmt.Close(); err != nil {
+			p.l.Println(err)
+		}
+	}()
+
+	for _, c := range customers {
+		if _, err := stmt.Exec(c.Email, c.FirstName, c.LastName); err != nil {
+			return err
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (p *CustomerProvider) Update(c *model.Customer) error {
 	_, err := p.store.db.Exec(
 		"UPDATE customer SET first_name = $1, last_name = $2",

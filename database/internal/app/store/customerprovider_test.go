@@ -48,6 +48,45 @@ func TestCustomerProvider_Add(t *testing.T) {
 	}
 }
 
+func TestCustomerProvider_BatchAdd(t *testing.T) {
+	testCases := []struct {
+		name   string
+		emails []string
+		valid  bool
+	}{
+		//{
+		//	name:   "valid email",
+		//	emails: []string{"user@example.com", "user2@example.org"},
+		//	valid:  true,
+		//},
+		{
+			name:   "one empty email",
+			emails: []string{"user2@example.com", "user3@example.org", ""},
+			valid:  false,
+		},
+	}
+
+	s, down := store.TestStore(t, databaseURL)
+	defer down()
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			cs := make([]*model.Customer, len(tc.emails))
+			for i, email := range tc.emails {
+				cs[i] = &model.Customer{Email: email}
+			}
+
+			err := s.Customer().BatchAdd(cs)
+			if tc.valid && err != nil {
+				t.Fatalf("expected: nil, got: %v", err)
+			}
+			if !tc.valid && err == nil {
+				t.Fatalf("expected: error, got: %v", err)
+			}
+		})
+	}
+}
+
 func TestCustomerProvider_Update(t *testing.T) {
 	testCases := []struct {
 		name      string
