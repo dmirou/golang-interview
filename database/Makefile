@@ -6,10 +6,27 @@ PG_PORT ?= 5433
 PG_URL ?= "postgresql://$(PG_USER):$(PG_PASSWORD)@localhost:$(PG_PORT)/$(PG_DB)?sslmode=disable"
 PG_MIGRATIONS_DIR = "./migrations/postgres"
 
-.PHONY: pgrun
-pgrun:
-	docker run --name $(PG_CONTAINER) -e POSTGRES_USER=$(PG_USER) -e POSTGRES_PASSWORD=$(PG_PASSWORD) \
-	-e POSTGRES_DB=$(PG_DB) -p $(PG_PORT):5432 -d postgres
+PG_ENV = -e "POSTGRES_USER=$(PG_USER)" -e "POSTGRES_PASSWORD=$(PG_PASSWORD)" \
+	-e "POSTGRES_DB=$(PG_DB)"
+
+PG_DB_PATH = ~/docker/bookshop
+PG_CONTAINER_DB_PATH = /var/lib/postgresql/data
+
+PG_RUNNED := $(shell docker ps -f name=^/$(PG_CONTAINER)$$ | grep $(PG_CONTAINER))
+PG_EXITED := $(shell docker ps -a -f name=^/$(PG_CONTAINER)$$ | grep $(PG_CONTAINER))
+
+.PHONY: pgstart
+pgstart:
+ifndef PG_RUNNED
+ifndef PG_EXITED
+		mkdir -p $(PG_DB_PATH)
+		docker run -d --name $(PG_CONTAINER) \
+		-p $(PG_PORT):5432 -v $(PG_DB_PATH):$(PG_CONTAINER_DB_PATH) \
+		$(PG_ENV) postgres
+else
+		docker start $(PG_CONTAINER)
+endif
+endif
 
 .PHONY: pgc
 pgc:
