@@ -1,4 +1,4 @@
-package cycles
+package main
 
 import (
 	"fmt"
@@ -11,8 +11,6 @@ func main() {
 		"var: %s, value: %s, len: %d, runeCount: %d\n",
 		"s", s, len(s), utf8.RuneCountInString(s),
 	)
-
-	utf8.EncodeRune()
 
 	fmt.Println("for i, v := range s")
 	for i, v := range s {
