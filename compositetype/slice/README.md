@@ -20,6 +20,13 @@ s2 := make([]int, 0, 10) // not nil, len is 0, cap is 10
 var s3 = []byte("hello мир")
 ```
 
+## Coping
+
+To copy slice from `src` you need to create `dst` slice with
+the same length or more and call `copy(dst, src)`.
+If length of `dst` will be zero or less than `src` only len(dst)
+items will be copied. `copy` return number of copied items.
+
 ## Features
 
 - Slices hold references to an underlying array, and if you assign one slice to 
@@ -47,3 +54,4 @@ var s3 = []byte("hello мир")
 
 - https://go.dev/doc/effective_go
 - https://www.callicoder.com/golang-slices/
+- https://www.geeksforgeeks.org/how-to-copy-one-slice-into-another-slice-in-golang/
