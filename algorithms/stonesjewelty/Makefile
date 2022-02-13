@@ -4,4 +4,6 @@ frun:
 .PHONY: crun
 crun:
 	go run cmd/console/main.go
-
+.PHONY: bench
+bench:
+	go test -bench=. -benchmem ./...
