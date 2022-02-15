@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/dmirou/learngo/algorithms/sort/bubble"
+	"github.com/dmirou/learngo/algorithms/sort/quick"
 )
 
 var testCases = []struct {
@@ -34,14 +35,14 @@ var testCases = []struct {
 		[]int{1, 2, 3, 4, 5},
 	},
 	{
-		"sorted not unique items",
-		[]int{1, 2, 2, 3, 3, 3, 4, 5, 5, 5},
-		[]int{1, 2, 2, 3, 3, 3, 4, 5, 5, 5},
-	},
-	{
 		"reversed unique items",
 		[]int{5, 4, 3, 2, 1},
 		[]int{1, 2, 3, 4, 5},
+	},
+	{
+		"sorted not unique items",
+		[]int{1, 2, 2, 3, 3, 3, 4, 5, 5, 5},
+		[]int{1, 2, 2, 3, 3, 3, 4, 5, 5, 5},
 	},
 	{
 		"reversed not unique items",
@@ -59,6 +60,15 @@ func TestBubbleSort(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			bubble.Sort(tc.in)
+			assert.Equal(t, tc.out, tc.in)
+		})
+	}
+}
+
+func TestQuickSort(t *testing.T) {
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			quick.Sort(tc.in)
 			assert.Equal(t, tc.out, tc.in)
 		})
 	}
