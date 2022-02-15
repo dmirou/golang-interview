@@ -5,6 +5,68 @@ import (
 	"time"
 )
 
+func d0() int {
+	x := 1
+
+	defer fmt.Printf("x before defer = 1; defer fmt.Printf(x) is %d\n", x)
+
+	x++
+
+	defer func() {
+		fmt.Printf("x before defer = 2; defer func(){ fmt.Printf(x) } is %d\n", x)
+	}()
+
+	defer func(x int) {
+		x++
+		fmt.Printf("x increased in defer func(x int) {x++} from %d to %d\n", x-1, x)
+	}(x)
+
+	x++
+
+	defer func(x *int) {
+		*x++
+		fmt.Printf("x increased in defer func(x *int) {*x++} from %d to %d\n", *x-1, *x)
+	}(&x)
+
+	defer func() {
+		x++
+		fmt.Printf("x increased in defer func() {x++} from 3 to %d\n", x)
+	}()
+
+	return x
+}
+
+func d01() (x int) {
+	x = 1
+
+	defer fmt.Printf("x before defer = 1; defer fmt.Printf(x) is %d\n", x)
+
+	x++
+
+	defer func() {
+		fmt.Printf("x before defer = 2; defer func(){ fmt.Printf(x) } is %d\n", x)
+	}()
+
+	defer func(x int) {
+		x++
+		fmt.Printf("x increased in defer func(x int) {x++} from %d to %d\n", x-1, x)
+	}(x)
+
+	x++
+
+	defer func(x *int) {
+		*x++
+		fmt.Printf("x increased in defer func(x *int) {*x++} from %d to %d\n", *x-1, *x)
+	}(&x)
+
+	defer func() {
+		x++
+		fmt.Printf("x increased in defer func() {x++} from 3 to %d\n", x)
+	}()
+
+	return x
+}
+
 func d1() {
 	x := 1
 
@@ -114,6 +176,14 @@ func d6() {
 }
 
 func main() {
+	fmt.Println("d0")
+	x := d0()
+	fmt.Printf("result from defer is %d\n\n", x)
+
+	fmt.Println("d01")
+	x = d01()
+	fmt.Printf("result from defer is %d\n\n", x)
+
 	d1()
 	// defer2 func(x int): x = 1
 	// defer1 func(): x = 2
