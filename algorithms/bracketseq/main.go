@@ -16,12 +16,7 @@ func generate(s string, open, closed, n int) {
 }
 
 func main() {
-	fmt.Printf("generate(%d)\n", 1)
-	generate("", 0, 0, 1)
-
-	fmt.Printf("generate(%d)\n", 2)
-	generate("", 0, 0, 2)
-
-	fmt.Printf("generate(%d)\n", 3)
-	generate("", 0, 0, 3)
+	var n int
+	fmt.Scanf("%d", &n)
+	generate("", 0, 0, n)
 }
