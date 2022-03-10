@@ -1,9 +1,7 @@
-package anagrams_test
+package anagrams
 
 import (
 	"testing"
-
-	"github.com/dmirou/learngo/algorithms/arrays/anagrams"
 )
 
 func TestAreAnagrams(t *testing.T) {
@@ -59,7 +57,7 @@ func TestAreAnagrams(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			actual := anagrams.AreAnagrams(tc.s1, tc.s2)
+			actual := AreAnagrams(tc.s1, tc.s2)
 			if tc.anagrams != actual {
 				t.Errorf("expected: %t, got: %t", tc.anagrams, actual)
 			}
