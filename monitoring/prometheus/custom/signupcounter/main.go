@@ -4,7 +4,9 @@ import (
 	"context"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -17,11 +19,27 @@ var (
 		Name: "signupcounter_signup_count",
 		Help: "The total number of signups",
 	})
+
+	onlineUsers = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "signupcounter_online_users",
+		Help: "Count of online users",
+	})
 )
 
 func main() {
 
+	rand.Seed(time.Now().UnixNano())
+
 	g, _ := errgroup.WithContext(context.Background())
+
+	go func() {
+		for {
+			select {
+			case <-time.After(5 * time.Second):
+				onlineUsers.Set(float64(20 + rand.Intn(60)))
+			}
+		}
+	}()
 
 	infoMux := http.NewServeMux()
 	infoMux.Handle("/metrics", promhttp.Handler())
