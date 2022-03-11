@@ -24,6 +24,14 @@ var (
 		Name: "signupcounter_online_users",
 		Help: "Count of online users",
 	})
+
+	runningJobs = promauto.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "signupcounter_running_jobs",
+			Help: "Count of running jobs",
+		},
+		[]string{"type"},
+	)
 )
 
 func main() {
@@ -37,6 +45,16 @@ func main() {
 			select {
 			case <-time.After(5 * time.Second):
 				onlineUsers.Set(float64(20 + rand.Intn(60)))
+			}
+		}
+	}()
+
+	go func() {
+		for {
+			select {
+			case <-time.After(5 * time.Second):
+				runningJobs.WithLabelValues("notification").Set(float64(20 + rand.Intn(60)))
+				runningJobs.WithLabelValues("completeOrder").Set(float64(rand.Intn(60)))
 			}
 		}
 	}()
