@@ -12,8 +12,10 @@ https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
     - Conclusion: avoid sentinel errors
   - Error types (type `BadRequestError` struct)
     - The caller can use a type assertion or type switch, error types must be made public.
-    - If your code implements an interface whose contract requires a specific error type, all implementors of that interface need to depend on the package that defines the error type.
-    - This intimate knowledge of a package’s types creates a strong coupling with the caller, making for a brittle API.
+    - If your code implements an interface whose contract requires a specific error type, all 
+      implementors of that interface need to depend on the package that defines the error type.
+    - This intimate knowledge of a package’s types creates a strong coupling with the caller, 
+      making for a brittle API.
     - Conclusion: avoid error types
   - Opaque errors (recommended)
     - Assert errors for behaviour, not type
@@ -77,3 +79,13 @@ https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
       on whether they're exported. `ErrBrokenLink = errors.New("link is broken")`
     - For custom error types, use the suffix `Error` instead.
       `type NotFoundError struct`
+- Error handling and Go https://go.dev/blog/error-handling-and-go
+  - The error type
+  - Simplifying repetitive error handling with your own HTTP error handler
+- Dave Cheney. Let’s talk about logging https://dave.cheney.net/2015/11/05/lets-talk-about-logging
+  - Nobody needs a warning log level.
+  - Don’t log at fatal level, prefer instead to return an error to the caller. 
+    If the error bubbles all the way up to main.main then that is the right place 
+    to handle any cleanup actions before exiting.
+  - Logging is error handling, when you log the error you add information message not error.
+- Dave Cheney. Stack traces and the errors package https://dave.cheney.net/2016/06/12/stack-traces-and-the-errors-package
