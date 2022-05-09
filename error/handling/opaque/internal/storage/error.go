@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	appErr "github.com/dmirou/learngo/error/handling/errortypes/internal/error"
+	appErr "github.com/dmirou/learngo/error/handling/opaque/internal/error"
 )
 
 var errConnection = errors.New("can not connect to the storage")

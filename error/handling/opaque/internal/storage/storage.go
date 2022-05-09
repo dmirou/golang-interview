@@ -3,7 +3,7 @@ package storage
 import (
 	"errors"
 
-	appErr "github.com/dmirou/learngo/error/handling/errortypes/internal/error"
+	appErr "github.com/dmirou/learngo/error/handling/opaque/internal/error"
 )
 
 // AddPerson is a part of public API of the package.

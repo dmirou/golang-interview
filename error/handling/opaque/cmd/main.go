@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	appErr "github.com/dmirou/learngo/error/handling/errortypes/internal/error"
-	"github.com/dmirou/learngo/error/handling/errortypes/internal/storage"
+	appErr "github.com/dmirou/learngo/error/handling/opaque/internal/error"
+	"github.com/dmirou/learngo/error/handling/opaque/internal/storage"
 )
 
 func TopLevelError() {
