@@ -2,15 +2,17 @@ package storage
 
 import (
 	"errors"
+
+	appErr "github.com/dmirou/learngo/error/handling/errortypes/internal/error"
 )
 
 // AddPerson is a part of public API of the package.
 func AddPerson(name string) error {
 	if name == "" {
-		return &ActionError{
-			Action: ActionAddPerson,
-			Reason: ReasonInvalidPersonName,
-			Args: map[string]interface{}{
+		return &actionError{
+			action: actionAddPerson,
+			code:   appErr.CodeInvalidPersonName,
+			args: map[string]interface{}{
 				"name": name,
 			},
 		}
@@ -18,18 +20,18 @@ func AddPerson(name string) error {
 
 	err := addToStorage()
 	if err != nil {
-		reason := ReasonInternalError
+		reason := appErr.CodeInternalError
 		if errors.Is(err, errAlreadyAdded) {
-			reason = ReasonPersonAlreadyAdded
+			reason = appErr.CodePersonAlreadyAdded
 		}
 
-		return &ActionError{
-			Action: ActionAddPerson,
-			Reason: reason,
-			Args: map[string]interface{}{
+		return &actionError{
+			action: actionAddPerson,
+			code:   reason,
+			args: map[string]interface{}{
 				"name": name,
 			},
-			WrappedErr: err,
+			wrappedErr: err,
 		}
 	}
 
@@ -39,10 +41,10 @@ func AddPerson(name string) error {
 // DeletePerson is a part of public API of the package.
 func DeletePerson(name string) error {
 	if name == "" {
-		return &ActionError{
-			Action: ActionDeletePerson,
-			Reason: ReasonInvalidPersonName,
-			Args: map[string]interface{}{
+		return &actionError{
+			action: actionDeletePerson,
+			code:   appErr.CodeInvalidPersonName,
+			args: map[string]interface{}{
 				"name": name,
 			},
 		}
@@ -50,18 +52,18 @@ func DeletePerson(name string) error {
 
 	err := deleteFromStorage()
 	if err != nil {
-		reason := ReasonInternalError
+		reason := appErr.CodeInternalError
 		if errors.Is(err, errAlreadyDeleted) {
-			reason = ReasonPersonAlreadyDeleted
+			reason = appErr.CodePersonAlreadyDeleted
 		}
 
-		return &ActionError{
-			Action: ActionDeletePerson,
-			Reason: reason,
-			Args: map[string]interface{}{
+		return &actionError{
+			action: actionDeletePerson,
+			code:   reason,
+			args: map[string]interface{}{
 				"name": name,
 			},
-			WrappedErr: err,
+			wrappedErr: err,
 		}
 	}
 
