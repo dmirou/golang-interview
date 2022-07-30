@@ -40,6 +40,8 @@ go build -gcflags=-m main.go
 
 ## Links
 
+- [Understand Go pointers in less than 800 words or your money back](https://dave.cheney.net/2017/04/26/understand-go-pointers-in-less-than-800-words-or-your-money-back)
+- [There is no pass-by-reference in Go](https://dave.cheney.net/2017/04/29/there-is-no-pass-by-reference-in-go)
 - https://medium.com/safetycultureengineering/an-overview-of-memory-management-in-go-9a72ec7c76a8
 - https://medium.com/a-journey-with-go/go-how-does-the-garbage-collector-mark-the-memory-72cfc12c6976
 - Implementing memory management with Golang’s garbage collector 
