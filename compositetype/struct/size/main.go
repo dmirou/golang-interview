@@ -25,7 +25,14 @@ type Store struct { // size 48 bytes, alignof is 8 bytes
 	soldCount  int    // offset 40 bytes, size 8 bytes
 }
 
+type Empty struct{}
+
 func main() {
+	var e1 Empty
+	var ePtr *Empty
+	fmt.Printf("e1 %+v size is %v bytes\n", e1, unsafe.Sizeof(e1))
+	fmt.Printf("ePtr %+v size is %v bytes\n", ePtr, unsafe.Sizeof(ePtr))
+
 	var p1 Person
 
 	fmt.Printf("p1 %+v size is %v bytes\n", p1, unsafe.Sizeof(p1))
