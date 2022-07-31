@@ -50,3 +50,4 @@ go build -gcflags=-m main.go
     https://www.ardanlabs.com/blog/2018/12/garbage-collection-in-go-part1-semantics.html
 - [Language Mechanics On Stacks And Pointers](https://www.ardanlabs.com/blog/2017/05/language-mechanics-on-stacks-and-pointers.html)
 - [Go: How Does the Goroutine Stack Size Evolve?](https://medium.com/a-journey-with-go/go-how-does-the-goroutine-stack-size-evolve-447fc02085e5)
+- [Go’s hidden #pragmas](https://dave.cheney.net/2018/01/08/gos-hidden-pragmas)
