@@ -48,3 +48,5 @@ go build -gcflags=-m main.go
     https://hub.packtpub.com/implementing-memory-management-with-golang-garbage-collector/
 - Garbage Collection In Go : Part I - Semantics
     https://www.ardanlabs.com/blog/2018/12/garbage-collection-in-go-part1-semantics.html
+- [Language Mechanics On Stacks And Pointers](https://www.ardanlabs.com/blog/2017/05/language-mechanics-on-stacks-and-pointers.html)
+- [Go: How Does the Goroutine Stack Size Evolve?](https://medium.com/a-journey-with-go/go-how-does-the-goroutine-stack-size-evolve-447fc02085e5)
