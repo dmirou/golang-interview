@@ -14,3 +14,4 @@
 ## Links
 
 - https://go.dev/doc/effective_go
+- [Arrays and CPU caches](https://github.com/ardanlabs/gotraining/blob/master/topics/go/language/arrays/README.md)
