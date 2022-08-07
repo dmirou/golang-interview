@@ -1,4 +1,4 @@
-module github.com/dmirou/learngo/http/client/resty
+module github.com/dmirou/learngo/http/client/resty/simple
 
 go 1.17
 
