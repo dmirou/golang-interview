@@ -18,8 +18,14 @@ func main() {
 	s02 := []byte(nil) //nil
 	printBytes("s02", s02)
 
-	var s03 = []byte{} // not nil
+	// reference to an empty struct, global variable in the runtime
+	// we can use empty slice instead of nil slice when our func returns nil error
+	// and results are empty
+	var s03 = []byte{}
 	printBytes("s03", s03)
+
+	var emptyStruct struct{}
+	fmt.Printf("emptyStruct %T, p: %p, val: %v\n", emptyStruct, &emptyStruct, emptyStruct)
 
 	var base = []byte("hello мир")
 	printBytes("base", base)
