@@ -55,3 +55,4 @@ items will be copied. `copy` return number of copied items.
 - https://go.dev/doc/effective_go
 - https://www.callicoder.com/golang-slices/
 - https://www.geeksforgeeks.org/how-to-copy-one-slice-into-another-slice-in-golang/
+- William Kenedy, Ultimate Go. https://github.com/ardanlabs/gotraining/tree/master/topics/go/language/slices
