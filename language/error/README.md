@@ -89,3 +89,4 @@ https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
     to handle any cleanup actions before exiting.
   - Logging is error handling, when you log the error you add information message not error.
 - Dave Cheney. Stack traces and the errors package https://dave.cheney.net/2016/06/12/stack-traces-and-the-errors-package
+- Error handling in Go HTTP applications https://www.joeshaw.org/error-handling-in-go-http-applications/
