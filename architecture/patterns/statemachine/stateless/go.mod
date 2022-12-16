@@ -1,4 +1,4 @@
-module github.com/dmirou/learngo/statemachine/stateless
+module github.com/dmirou/learngo/architecture/patterns/statemachine/stateless
 
 go 1.17
 

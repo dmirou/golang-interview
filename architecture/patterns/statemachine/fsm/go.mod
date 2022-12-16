@@ -1,4 +1,4 @@
-module github.com/dmirou/learngo/statemachine/fsm
+module github.com/dmirou/learngo/architecture/patterns/statemachine/fsm
 
 go 1.17
 
