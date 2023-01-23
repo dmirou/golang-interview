@@ -38,9 +38,7 @@ func f() {
 func g(i int) {
 	if i > 3 {
 		fmt.Println("Panicking!")
-		func() {
-			go panic(fmt.Sprintf("%v", i))
-		}()
+		panic(fmt.Sprintf("%v", i))
 	}
 	defer fmt.Println("Defer in g", i)
 

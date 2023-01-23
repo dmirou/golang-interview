@@ -1,67 +1,36 @@
-package simple
+package main
 
 import (
 	"fmt"
 	"time"
 )
 
-func d0() int {
-	x := 1
-
-	defer fmt.Printf("x before defer = 1; defer fmt.Printf(x) is %d\n", x)
-
-	x++
-
-	defer func() {
-		fmt.Printf("x before defer = 2; defer func(){ fmt.Printf(x) } is %d\n", x)
-	}()
-
-	defer func(x int) {
-		x++
-		fmt.Printf("x increased in defer func(x int) {x++} from %d to %d\n", x-1, x)
-	}(x)
-
-	x++
-
-	defer func(x *int) {
-		*x++
-		fmt.Printf("x increased in defer func(x *int) {*x++} from %d to %d\n", *x-1, *x)
-	}(&x)
-
-	defer func() {
-		x++
-		fmt.Printf("x increased in defer func() {x++} from 3 to %d\n", x)
-	}()
-
-	return x
-}
-
-func d01() (x int) {
+func d0() (x int) {
 	x = 1
 
-	defer fmt.Printf("x before defer = 1; defer fmt.Printf(x) is %d\n", x)
+	defer fmt.Printf("1. defer fmt.Printf(x) is %d\n", x)
 
 	x++
 
+	defer fmt.Printf("2. defer fmt.Printf(x) is %d\n", x)
+
 	defer func() {
-		fmt.Printf("x before defer = 2; defer func(){ fmt.Printf(x) } is %d\n", x)
+		fmt.Printf("3. defer func(){fmt.Printf(x)} is %d\n", x)
 	}()
 
 	defer func(x int) {
-		x++
-		fmt.Printf("x increased in defer func(x int) {x++} from %d to %d\n", x-1, x)
+		x += 2
+		fmt.Printf("4. x increased in defer func(x int) {x+=2} from %d to %d\n", x-2, x)
 	}(x)
-
-	x++
 
 	defer func(x *int) {
 		*x++
-		fmt.Printf("x increased in defer func(x *int) {*x++} from %d to %d\n", *x-1, *x)
+		fmt.Printf("5. x increased in defer func(x *int) {*x++} from %d to %d\n", *x-1, *x)
 	}(&x)
 
 	defer func() {
 		x++
-		fmt.Printf("x increased in defer func() {x++} from 3 to %d\n", x)
+		fmt.Printf("6. x increased in defer func() {x++} from %d to %d\n", x-1, x)
 	}()
 
 	return x
@@ -97,25 +66,19 @@ func d2() int {
 func bigSlowOperation() {
 	defer trace("bigSlowOperation")()
 
-	time.Sleep(1 * time.Second)
+	time.Sleep(100 * time.Millisecond)
 }
 
 func double() (result int) {
 	defer func() {
+		v := recover()
+		fmt.Printf("recover called, v is %q\n", v)
 		result = 10
 		fmt.Println("defer called result = 10")
 	}()
 
-	defer func() {
-		v := recover()
-		fmt.Printf("recover called, v is %q\n", v)
-	}()
-
-	panic("some panic reason")
-
 	result = 5
-
-	return
+	panic("some panic reason")
 }
 
 func trace(name string) func() {
@@ -139,7 +102,7 @@ func d3() {
 }
 
 func d4() {
-	fmt.Println("d5")
+	fmt.Println("d4")
 	defer fmt.Println()
 	for i := 0; i < 5; i++ {
 		defer func() {
@@ -151,7 +114,7 @@ func d4() {
 }
 
 func d5() {
-	fmt.Println("d4")
+	fmt.Println("d5")
 	defer fmt.Println()
 	for i := 0; i < 5; i++ {
 		defer func(i int) {
@@ -178,12 +141,9 @@ func d6() {
 func main() {
 	fmt.Println("d0")
 	x := d0()
-	fmt.Printf("result from defer is %d\n\n", x)
+	fmt.Printf("result from d0 is %d\n\n", x)
 
-	fmt.Println("d01")
-	x = d01()
-	fmt.Printf("result from defer is %d\n\n", x)
-
+	fmt.Println("d1")
 	d1()
 	// defer2 func(x int): x = 1
 	// defer1 func(): x = 2
