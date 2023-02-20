@@ -1,13 +1,16 @@
-// Example of HTTP server with slow operation with context.
-// Context can be cancelled by a client.
+// Example of HTTP server with graceful shutdown and slow operation with context.
+// Handler context can be cancelled only by a client.
 package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -54,7 +57,38 @@ func handler() func(http.ResponseWriter, *http.Request) {
 }
 
 func main() {
-	if err := http.ListenAndServe("localhost:8080", http.HandlerFunc(handler())); err != nil {
-		log.Printf("liten and serve: %v", err)
+	ctx := context.Background()
+
+	ctx, stop := signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	srv := http.Server{
+		Addr:    "localhost:8080",
+		Handler: http.HandlerFunc(handler()),
 	}
+
+	go func() {
+		log.Println("server started")
+		if err := srv.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
+			log.Printf("listen and serve: %v", err)
+			return
+		}
+		log.Println("listening and serving was stopped")
+	}()
+
+	<-ctx.Done()
+	log.Println("termination signal received")
+
+	shutdownServer(context.Background(), &srv)
+}
+
+func shutdownServer(ctx context.Context, srv *http.Server) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Printf("shutdown: %v\n", err)
+		return
+	}
+	log.Println("server shutdown completed")
 }

@@ -1,3 +1,4 @@
+// Example of HTTP server with slow operation without context.
 package main
 
 import (
