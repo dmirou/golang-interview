@@ -2,6 +2,7 @@
 
 ## Links
 
+- https://github.com/ardanlabs/gotraining/tree/master/topics/go/design/error_handling
 - https://go.dev/doc/effective_go#errors
 - Dave Cheney. Don’t just check errors, handle them gracefully
 https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
@@ -89,4 +90,6 @@ https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
     to handle any cleanup actions before exiting.
   - Logging is error handling, when you log the error you add information message not error.
 - Dave Cheney. Stack traces and the errors package https://dave.cheney.net/2016/06/12/stack-traces-and-the-errors-package
+- Design Philosophy On Logging https://www.ardanlabs.com/blog/2017/05/design-philosophy-on-logging.html
+- Handle error behaviour instead of context https://github.com/ardanlabs/gotraining/blob/master/topics/go/design/error_handling/example4/example4.go#L68
 - Error handling in Go HTTP applications https://www.joeshaw.org/error-handling-in-go-http-applications/
