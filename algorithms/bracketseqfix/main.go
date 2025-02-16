@@ -30,33 +30,34 @@ package main
 )(() - ко == кз, не могу
 ()(( - о3, 31, индекс последней открывающей
 */
-func fixSeq(seq []rune) int {
-	var oIdx, cIdx, cO, cC int
-	cIdx = -1
+func fixSeq(s string) int {
+	seq := []rune(s)
+
+	var openIdx, closeIdx, openCount, closeCount int
+	closeIdx = -1
 	if len(seq) == 0 || len(seq)%2 == 1 {
 		return -1
 	}
 	for i := 0; i < len(seq); i++ {
 		switch {
 		case seq[i] == '(':
-			cO++
-			oIdx = i
+			openCount++
+			openIdx = i
 		case seq[i] == ')':
-			cC++
-			if cIdx == -1 {
-				cIdx = i
+			closeCount++
+			if closeIdx == -1 {
+				closeIdx = i
 			}
 		}
 	}
-	if cO-cC == 2 {
-		return oIdx
+	if openCount-closeCount == 2 {
+		return openIdx
 	}
-	if cC-cO == 2 {
-		return cIdx
+	if closeCount-openCount == 2 {
+		return closeIdx
 	}
 	return -1
 }
 
 func main() {
-
 }
