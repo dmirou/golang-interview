@@ -1,10 +1,6 @@
-package anagrams
+package isanagrams
 
-// "aba", "baa" -> true
-// "aba", "bab" -> false
-// "aba", "aba" -> true
-// "", "" -> true
-func AreAnagrams(s1, s2 string) bool {
+func isAnagram(s1 string, s2 string) bool {
 	m1 := make(map[rune]int)
 
 	for _, r := range s1 {
