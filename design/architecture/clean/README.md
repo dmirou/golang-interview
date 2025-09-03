@@ -8,3 +8,5 @@
    1. [Article](https://dev.to/bmf_san/dive-to-clean-architecture-with-golang-cd4)
    2. [web app boilerplate](https://github.com/bmf-san/go-clean-architecture-web-application-boilerplate)
    3. [gobel-api](https://github.com/bmf-san/gobel-api)
+4. [Чистая архитектура проекта на Golang | Олег Козырев | Дзен](https://dzen.ru/video/watch/677b9a9660cfc04bca1c8a5c?f=d2d)
+5. [Uber FX dependency injection system for Go](https://uber-go.github.io/fx/get-started/index.html)

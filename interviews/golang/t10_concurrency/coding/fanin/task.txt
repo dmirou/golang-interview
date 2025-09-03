@@ -1,0 +1,35 @@
+// Implement function which merges a few channels into one channel.
+package main
+
+import (
+	"fmt"
+)
+
+func gen(n int) chan int {
+	out := make(chan int)
+	go func() {
+		for i := 0; i < n; i++ {
+			out <- i
+		}
+		close(out)
+	}()
+
+	return out
+}
+
+func main() {
+	ch1 := gen(3)
+	ch2 := gen(8)
+	ch3 := gen(5)
+
+	res := merge(ch1, ch2, ch3)
+
+	for i := range res {
+		fmt.Println(i)
+	}
+}
+
+func merge(chs ...chan int) chan int {
+	// TODO implement me
+	return nil
+}

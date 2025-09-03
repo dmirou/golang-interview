@@ -1,0 +1,35 @@
+// Implement workInParallel func which should use work func to process each item.
+// It should run workersNum workers to process the incoming data.
+package main
+
+import (
+	"fmt"
+)
+
+func gen(n int) chan string {
+	res := make(chan string)
+	go func() {
+		for i := 0; i < n; i++ {
+			res <- fmt.Sprintf("%d", i)
+		}
+		close(res)
+	}()
+
+	return res
+}
+
+func main() {
+	in := gen(100)
+	out := workInParallel(in, 5)
+	for v := range out {
+		fmt.Println(v)
+	}
+}
+
+func workInParallel(in chan string, workersNum int) chan string {
+	// TODO implement me
+}
+
+func work(in string) string {
+	return in + in
+}

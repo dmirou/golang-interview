@@ -51,6 +51,7 @@ go build -gcflags=-m main.go
 
 - [**Pointers**](https://github.com/ardanlabs/gotraining/tree/master/topics/go/language/pointers)
 - [Using Pointers In Go](https://www.ardanlabs.com/blog/2014/12/using-pointers-in-go.html)
+- [When to use pointers in Go](https://medium.com/@meeusdylan/when-to-use-pointers-in-go-44c15fe04eac)
 - [Language Mechanics On Stacks And Pointers](https://www.ardanlabs.com/blog/2017/05/language-mechanics-on-stacks-and-pointers.html)
 - [Go: How Does the Goroutine Stack Size Evolve?](https://medium.com/a-journey-with-go/go-how-does-the-goroutine-stack-size-evolve-447fc02085e5)
 - [Go’s hidden #pragmas](https://dave.cheney.net/2018/01/08/gos-hidden-pragmas)

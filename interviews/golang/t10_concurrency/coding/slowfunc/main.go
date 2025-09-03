@@ -1,0 +1,34 @@
+package main
+
+import (
+	"context"
+	"time"
+)
+
+// Просто медленная функция
+func slowFunc() int64 {
+	// slow operations
+	time.Sleep(2 * time.Second)
+	return time.Now().Unix()
+}
+
+// Нужно написать функцию обертку над slowFunc, которая использует контекст,
+// не меняя ее сигнатуру. То есть мы завершаем выполнение с ошибкой если контекст завершается
+// раньше чем мы получили ответ от slowFunc.
+func slowFuncWithContext(ctx context.Context) (int64, error) {
+	ch := make(chan int64, 1)
+	go func() {
+		ch <- slowFunc()
+	}()
+
+	select {
+	case v := <-ch:
+		return v, nil
+	case <-ctx.Done():
+		return 0, ctx.Err()
+	}
+}
+
+func main() {
+
+}
