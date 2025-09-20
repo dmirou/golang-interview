@@ -1,4 +1,4 @@
-package jump_game
+package can_jump
 
 // canJumpFast uses a greedy approach to solve the jump game problem.
 // Instead of exploring all possible paths (like DFS), it tracks the maximum

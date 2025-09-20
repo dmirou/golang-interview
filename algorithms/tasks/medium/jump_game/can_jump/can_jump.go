@@ -1,4 +1,4 @@
-package jump_game
+package can_jump
 
 // Example 1:
 
