@@ -1,6 +1,15 @@
-package minsubarraylen
+package minsubarraysumeqk
 
 /*
+209. Minimum Size Subarray Sum
+
+https://leetcode.com/problems/minimum-size-subarray-sum?envType=problem-list-v2&envId=prefix-sum
+
+Medium
+Topics
+premium lock icon
+Companies
+
 Given an array of positive integers nums and a positive integer target, return
 the minimal length of a subarray whose sum is greater than or equal to target.
 If there is no such subarray, return 0 instead.
@@ -22,6 +31,8 @@ Constraints:
 1 <= target <= 109
 1 <= nums.length <= 105
 1 <= nums[i] <= 104
+
+Follow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log(n)).
 */
 func minSubArrayLen(target int, nums []int) int {
 	// idxs = [0, 1, 2, 3, 4,  5,  6]

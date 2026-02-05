@@ -1,4 +1,4 @@
-package minsubarraylen
+package minsubarraysumeqk
 
 import (
 	"testing"
